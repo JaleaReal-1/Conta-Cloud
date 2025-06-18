@@ -1,0 +1,62 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8090/eureka}
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+      discovery:
+        locator:
+          enable: true
+      routes:
+        - id: dp-inventario
+          uri: lb://dp-inventario
+          predicates:
+            - Path=/movimientos/**, /productos/**
+          filters:
+
+        - id: dp-cliente
+          uri: lb://pd-cliente
+          predicates:
+            - Path=/clientes/**
+          filters:
+
+        - id: dp-licencias
+          uri: lb://dp-licencias
+          predicates:
+            - Path=/licencias/**
+          filters:
+
+        - id: pd-venta
+          uri: lb://pd-venta
+          predicates:
+            - Path=/ventas/**
+          filters:
+
+        - id: dp-facturation
+          uri: lb://dp-facturation
+          predicates:
+            - Path=/facturas/**
+          filters:
+
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth/**
