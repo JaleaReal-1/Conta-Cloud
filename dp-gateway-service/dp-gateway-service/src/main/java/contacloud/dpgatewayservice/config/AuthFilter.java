@@ -45,7 +45,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
                     "POST", List.of("ADMINISTRADOR")
             ),
             "/clientes(/.*)?", Map.of(
-                    "GET", List.of("ADMINISTRADOR"),
+                    "GET", List.of("ADMINISTRADOR", "CLIENTE"),
                     "PUT", List.of("ADMINISTRADOR")
             ),
             "/licencias(/.*)?", Map.of(
